@@ -1,0 +1,49 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+# problem https://www.hackerrank.com/challenges/3d-surface-area/problem
+# Complete the surfaceArea function below.
+def surfaceArea(A, H, W):
+    area = H*W*2 # this calculates the upper and bottom surfaces. When you pull all sub-surfaces facing up, you get the same area with the bottom surface. 
+    for i in range(H):
+        for j in range(W):
+        # the four if functions help calculate the four surfaces in the surrounding areas. 
+            if i== 0:
+                area += A[i][j]
+            if j==0:
+                area += A[i][j]
+            if i == H-1:
+                area += A[i][j]
+            if j == W-1:
+                area += A[i][j]
+          # the following two if functions help calculate the extra surfaces created due to the different hights between lines and between integers
+            if i != 0 & i!= H-1:
+                area += abs(A[i][j]-A[i-1][j])
+            if j!=0 & j!=W-1:
+                area += abs(A[i][j]-A[i][j-1])
+            
+    return area
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    HW = input().split()
+
+    H = int(HW[0])
+
+    W = int(HW[1])
+
+    A = []
+
+    for _ in range(H):
+        A.append(list(map(int, input().rstrip().split())))
+
+    result = surfaceArea(A, H, W)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
